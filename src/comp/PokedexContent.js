@@ -1,11 +1,14 @@
 
 import PokemonListItem from './PokemonListItem';
+import PokemonDetails from './PokemonDetails';
 
 function PokedexContent({
     pokemon,
     pokemonDetails,
     onGetDetails,
 }) {
+    const { name, moves, types, evolutions } = pokemonDetails || {};
+
     return (
         <div className={'pokedex__content'}>
                 {pokemon.length > 0 && (
@@ -25,9 +28,12 @@ function PokedexContent({
                 )}
                 {
                     pokemonDetails && (
-                        <div className={'pokedex__details'}>
-                            {/*  code here  */}
-                        </div>
+                        <PokemonDetails
+                            name={name}
+                            moves={moves}
+                            types={types}
+                            evolutions={evolutions}
+                        />
                     )
                 }
             </div>
