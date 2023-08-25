@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { fetchPokemonDetailsByName, fetchEvolutionChainById } from "./api";
 
-import { SearchHeader } from './comp';
+import {
+    SearchHeader,
+    PokedexContent,
+} from './comp';
 
 import {
     formatPokemonMoves,
@@ -59,31 +62,11 @@ function App() {
                 onChange={onSearchValueChange}
                 placeholder="Search Pokemon"
             />
-            <div className={'pokedex__content'}>
-                {pokemon.length > 0 && (
-                    <div className={'pokedex__search-results'}>
-                        {
-                            pokemon.map(monster => {
-                                return (
-                                    <div className={'pokedex__list-item'} key={monster.name}>
-                                        <div>
-                                            {monster.name}
-                                        </div>
-                                        <button onClick={onGetDetails(monster.name)}>Get Details</button>
-                                    </div>
-                                )
-                            })
-                        }
-                    </div>
-                )}
-                {
-                    pokemonDetails && (
-                        <div className={'pokedex__details'}>
-                            {/*  code here  */}
-                        </div>
-                    )
-                }
-            </div>
+            <PokedexContent
+                pokemon={pokemon}
+                pokemonDetails={pokemonDetails}
+                onGetDetails={onGetDetails}
+            />
         </div>
     );
 }
