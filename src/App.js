@@ -1,40 +1,39 @@
 import { useEffect, useState } from "react";
 import { fetchAllPokemon } from "./api";
 
+import { useFetchPokemon } from './hooks';
+
 function App() {
-    const [pokemonIndex, setPokemonIndex] = useState([])
-    const [pokemon, setPokemon] = useState([])
-    const [searchValue, setSearchValue] = useState('')
-    const [pokemonDetails, setPokemonDetails] = useState()
+    const { pokemonIndex, isLoading, errorMessage } = useFetchPokemon();
+
+    const [pokemon, setPokemon] = useState([]);
+    const [searchValue, setSearchValue] = useState('');
+
+    const [pokemonDetails, setPokemonDetails] = useState();
 
     useEffect(() => {
-        const fetchPokemon = async () => {
-            const {results: pokemonList} = await fetchAllPokemon()
-
-            setPokemon(pokemonList)
-            setPokemonIndex(pokemonList)
-        }
-
-        fetchPokemon().then(() => {
-            /** noop **/
-        })
-    }, [])
+        setPokemon(pokemonIndex);
+    }, [pokemonIndex]);
 
     const onSearchValueChange = (event) => {
-        const value = event.target.value
-        setSearchValue(value)
+        const value = event.target.value;
+        setSearchValue(value);
 
-        setPokemon(
-            pokemonIndex.filter(monster => monster.name.includes(value))
-        )
+        const results = pokemonIndex.filter(monster => monster.name.includes(value));
+        setPokemon(results);
     }
 
     const onGetDetails = (name) => async () => {
         /** code here **/
     }
 
+    if (isLoading) {
+        return null;
+    }
+
     return (
         <div className={'pokedex__container'}>
+            {errorMessage && <p>An error has occurred!</p>}
             <div className={'pokedex__search-input'}>
                 <input value={searchValue} onChange={onSearchValueChange} placeholder={'Search Pokemon'}/>
             </div>
