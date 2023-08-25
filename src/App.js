@@ -22,6 +22,7 @@ function App() {
     const [searchValue, setSearchValue] = useState('');
 
     const [pokemonDetails, setPokemonDetails] = useState();
+    const [loadingDetails, setLoadingDetails] = useState(false);
 
     useEffect(() => {
         setPokemon(pokemonIndex);
@@ -36,21 +37,35 @@ function App() {
     }
 
     const onGetDetails = (pokemonName) => async () => {
-        /** code here **/
-        const pokemonDetails = await fetchPokemonDetailsByName(pokemonName);
-        const species = await fetchPokemonSpeciesByName(pokemonName);
+        if (loadingDetails) {
+            return;
+        }
 
-        const chainId = getEvolutionChainIdFromSpecies(species);
-        const evolutions = await fetchEvolutionChainById(chainId);
+        try {
+            const pokemonDetailsPromise = fetchPokemonDetailsByName(pokemonName);
+            const speciesPromise = fetchPokemonSpeciesByName(pokemonName);
 
-        const details = {
-            name: pokemonName,
-            moves: formatPokemonMoves(pokemonDetails?.moves),
-            types: formatPokemonTypes(pokemonDetails?.types),
-            evolutions: formatPokemonEvolutions(evolutions),
-        };
+            const [pokemonDetails, species] = await Promise.all(
+                [pokemonDetailsPromise, speciesPromise]
+            );
 
-        setPokemonDetails(details);
+            const chainId = getEvolutionChainIdFromSpecies(species);
+            const evolutions = await fetchEvolutionChainById(chainId);
+
+            const details = {
+                name: pokemonName,
+                moves: formatPokemonMoves(pokemonDetails?.moves),
+                types: formatPokemonTypes(pokemonDetails?.types),
+                evolutions: formatPokemonEvolutions(evolutions),
+            };
+
+            setPokemonDetails(details);
+        } catch (error) {
+            // todo more error handling
+            console.error(error.message);
+        } finally {
+            setLoadingDetails(false);
+        }
     }
 
     if (isLoading) {
