@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { fetchPokemonDetailsByName, fetchEvolutionChainById } from "./api";
 
+import {
+    formatPokemonMoves,
+    formatPokemonTypes,
+} from './utils';
+
 import { useFetchPokemon } from './hooks';
 
 function App() {
@@ -32,8 +37,8 @@ function App() {
 
         const details = {
             name: pokemonName,
-            moves: pokemonDetails?.moves,
-            types: pokemonDetails?.types,
+            moves: formatPokemonMoves(pokemonDetails?.moves),
+            types: formatPokemonTypes(pokemonDetails?.types),
             evolutions,
         };
 
