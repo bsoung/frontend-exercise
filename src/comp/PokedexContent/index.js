@@ -11,7 +11,7 @@ function PokedexContent({
 
     return (
         <div className={'pokedex__content'}>
-                {pokemon.length > 0 && (
+                {pokemon.length > 0 ? (
                     <div className={'pokedex__search-results'}>
                         {
                             pokemon.map(({ name: pokemonName }) => {
@@ -24,6 +24,10 @@ function PokedexContent({
                                 )
                             })
                         }
+                    </div>
+                ) : (
+                    <div className={'pokedex__search-empty'}>
+                        No Results Found
                     </div>
                 )}
                 {
