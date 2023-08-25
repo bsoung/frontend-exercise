@@ -46,6 +46,8 @@ function App() {
             return;
         }
 
+        setLoadingDetails(true);
+
         try {
             const pokemonDetailsPromise = fetchPokemonDetailsByName(pokemonName);
             const speciesPromise = fetchPokemonSpeciesByName(pokemonName);
