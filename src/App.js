@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchAllPokemon } from "./api";
+import { fetchPokemonDetailsByName, fetchEvolutionChainById } from "./api";
 
 import { useFetchPokemon } from './hooks';
 
@@ -23,8 +23,21 @@ function App() {
         setPokemon(results);
     }
 
-    const onGetDetails = (name) => async () => {
+    const onGetDetails = (pokemonName) => async () => {
         /** code here **/
+        const pokemonDetails = await fetchPokemonDetailsByName(pokemonName);
+
+        const chainId = pokemonDetails?.id;
+        const evolutions = await fetchEvolutionChainById(chainId);
+
+        const details = {
+            name: pokemonName,
+            moves: pokemonDetails?.moves,
+            types: pokemonDetails?.types,
+            evolutions,
+        };
+
+        console.log(details);
     }
 
     if (isLoading) {
