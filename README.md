@@ -48,6 +48,66 @@ Please take some time to answer the following questions. Your answers should go 
 
 - Given more time, what would you suggest for improving the performance of this app?
 
+Take a look using React Developer Tools, to check how efficiently we render the list of pokemon.
+Does the entire list re-render everytime we click on a pokemon for the details? In that case I'd want to
+look into using memo and useCallback here.
+
+Take a look at how much initial pokemon are we fetching, and if it's possible via pokeapi to limit the amount of pokemon initially fetched, and implement infinite scrolling after we hit the end of the list of 
+current pokemons to automatically load more.
+
+Another thing is the way we are fetching the data from pokeapi. Right now there's a basic hook to fetch the initial pokemon, and we use an async event handler fetch the details when clicking on a pokemon. I would use react-query, since it helps handle the caching of the data, and brings parallel fetching and other cool options out of the box for a nice dev experience. The chrome extension is also great!
+
+In terms of ux:
+
+Also make it mobile intuitive - which would probably mean changing up the behavior a bit so that
+instead of a box popping up to the side, we have a modal appear centered containing the
+Pokemon details.
+
+Checking with accessiblity tools and profilers as well.
+
 - Is there anything you would consider doing if we were to go live with this app?
 
+Confirm with the team if there is a need for feature flagging (maybe we stagger release for some pokemon detail).
+
+Do we also want a mobile app to go live at the same time?
+
+Brush up on any areas that require further error handling.
+
+Check if there are any important integrations that need
+to be hooked in to the frontend as code. For example, monitoring tools like Sentry or analytics like GA.
+
+Add a better loading experience for both the search results list and the Pokemon
+details box. Perhaps using skeleton loaders.
+
+Complete coverage for the utility tests and add some basic component tests to make sure that
+the components render, and that the user's "happy path" (which is just pressing a button for now),
+triggers what they'd expect to see on the screen, which is either the Pokemon Details box appearing,
+or the contents of the box changing.
+
+Check if there is an existing internal component library that could be used instead of
+creating new styled components or stylesheets.
+
+Confirm with the design system/designer about any of the visual aspects to confirm
+that the design is how they want it to look.
+
+Confirm that all the current copy on the Pokedex is what the team wants, including error messages and empty state text.
+
+For accessing third party Pokeapi, I'd also want to double check what the limit is on requests per minute,
+any throttling, and any implications there. Just for awareness.
+
+Making sure there's a plan for going live, if any dev/staging environments are needed to test
+the functionality, and a CI/CD/tests pipeline as well as a host.
+
+We also need to consider monitoring tools that will help us keep an eye on the health
+of the Pokedex app and the third party api after it goes live.
+
 - What was the most challenging aspect of this work for you (if at all)?
+
+I think the most challenging aspect of this work was understanding the nuances between the different
+ids in pokeapi given the time limit. I was confused as to why fetching the evolution chain
+id by the id I got from the pokemon details was giving me incorrect pokemon evolutions.
+
+Quick google search brought up the issue and it was actually the wrong id that I was using.
+The correct one is actually provided when searching for the pokemon species.
+
+Apart from that, I felt like the rest was very straightforward, and I definitely had fun with the theme of this app as pokemon fan!
