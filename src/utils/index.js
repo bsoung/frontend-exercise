@@ -1,3 +1,4 @@
+// recursively grab all the evolutions and return an array of evolution names
 const _getEvolutions = (evolution) => {
     const name = evolution?.species?.name;
 

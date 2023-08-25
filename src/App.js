@@ -37,7 +37,12 @@ function App() {
     }
 
     const onGetDetails = (pokemonName) => async () => {
+        // prevent spamming
         if (loadingDetails) {
+            return;
+        }
+
+        if (pokemonDetails && pokemonDetails.name === pokemonName) {
             return;
         }
 
@@ -68,6 +73,7 @@ function App() {
         }
     }
 
+    // todo would use a skeleton loader component here with more time
     if (isLoading) {
         return null;
     }
