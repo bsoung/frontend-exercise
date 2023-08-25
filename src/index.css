@@ -28,5 +28,32 @@ body {
 .pokedex__list-item {
 }
 
-.pokedex__details {
+.pokedex__details-content {
+  border: 2px solid #000;
+  border-radius: 5px;
+  text-align: center;
+  padding: 15px;
+}
+
+.pokedex__details-info {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.pokedex__details-moves ul {
+  max-height: 78px;
+  overflow-y: auto;
+}
+
+.pokedex__details-types ul, .pokedex__details-moves ul {
+  text-align: left;
+}
+
+.pokedex__details-evochain {
+  display: flex;
+  justify-content: space-around;
+  width: 259px;
+  flex-wrap: wrap;
 }
