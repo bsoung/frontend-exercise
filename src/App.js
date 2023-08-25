@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { fetchPokemonDetailsByName, fetchEvolutionChainById } from "./api";
 
+import { SearchHeader } from './comp';
+
 import {
     formatPokemonMoves,
     formatPokemonTypes,
@@ -52,9 +54,11 @@ function App() {
     return (
         <div className={'pokedex__container'}>
             {errorMessage && <p>An error has occurred!</p>}
-            <div className={'pokedex__search-input'}>
-                <input value={searchValue} onChange={onSearchValueChange} placeholder={'Search Pokemon'}/>
-            </div>
+            <SearchHeader
+                value={searchValue}
+                onChange={onSearchValueChange}
+                placeholder="Search Pokemon"
+            />
             <div className={'pokedex__content'}>
                 {pokemon.length > 0 && (
                     <div className={'pokedex__search-results'}>
