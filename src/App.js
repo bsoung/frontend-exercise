@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchPokemonDetailsByName, fetchEvolutionChainById } from "./api";
+import { fetchPokemonDetailsByName, fetchPokemonSpeciesByName, fetchEvolutionChainById } from "./api";
 
 import {
     SearchHeader,
@@ -9,6 +9,8 @@ import {
 import {
     formatPokemonMoves,
     formatPokemonTypes,
+    formatPokemonEvolutions,
+    getEvolutionChainIdFromSpecies,
 } from './utils';
 
 import { useFetchPokemon } from './hooks';
@@ -36,18 +38,19 @@ function App() {
     const onGetDetails = (pokemonName) => async () => {
         /** code here **/
         const pokemonDetails = await fetchPokemonDetailsByName(pokemonName);
+        const species = await fetchPokemonSpeciesByName(pokemonName);
 
-        const chainId = pokemonDetails?.id;
+        const chainId = getEvolutionChainIdFromSpecies(species);
         const evolutions = await fetchEvolutionChainById(chainId);
 
         const details = {
             name: pokemonName,
             moves: formatPokemonMoves(pokemonDetails?.moves),
             types: formatPokemonTypes(pokemonDetails?.types),
-            evolutions,
+            evolutions: formatPokemonEvolutions(evolutions),
         };
 
-        console.log(details);
+        setPokemonDetails(details);
     }
 
     if (isLoading) {
